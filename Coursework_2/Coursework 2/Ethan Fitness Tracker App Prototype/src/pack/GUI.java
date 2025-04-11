@@ -1,6 +1,7 @@
 package pack;
 
 import java.awt.BorderLayout;
+import javax.swing.JFileChooser;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Arrays;
@@ -13,12 +14,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 
-	
 	public class GUI {
 		
 	private JFrame mainframe;
+	private JTextField nameField;
+	private JTextField ageField;
+	private JTextField weightField;
+	private JTextField heightField;
+	private JTextField durationField;
+	
+	private JLabel bmrLabel;
+	private JLabel calorieLabel;
 
 	public GUI() {
 		
@@ -43,20 +52,20 @@ import java.awt.event.ActionEvent;
         mainframe.add(userbuttonpanel, BorderLayout.NORTH);
         mainframe.add(calcbuttonpanel, BorderLayout.SOUTH);
         
-        JTextField nameField = new JTextField();
-        JTextField ageField = new JTextField();
-        JTextField weightField = new JTextField();
-        JTextField heightField = new JTextField(); 
-        JTextField durationField = new JTextField(); 
+        nameField = new JTextField();
+        ageField = new JTextField();
+        weightField = new JTextField();
+        heightField = new JTextField(); 
+        durationField = new JTextField();
         
+        calorieLabel = new JLabel("Calories burned: ");
+        bmrLabel = new JLabel("BMR: ");
+       
         String[] exercises = Tracker.getMetMapKeys();
         Arrays.sort(exercises);
         JComboBox<String> exerciseDropdown = new JComboBox<>(exercises);
         
-        JLabel calorieLabel = new JLabel("Calories burned: ");
         JButton calculatecaloriesButton = new JButton("Calculate calories burnt");
-        
-        JLabel bmrLabel = new JLabel("BMR: ");
         JButton calculatebmrButton = new JButton("Calculate BMR");
         
         JButton saveuserbutton = new JButton("Save user");
@@ -130,24 +139,62 @@ import java.awt.event.ActionEvent;
         {
             JOptionPane.showMessageDialog(mainframe, "Please enter valid input!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        	
+        
         saveuserbutton.addActionListener(new ActionListener() {
-        @Override
-         public void actionPerformed(ActionEvent e) {
-        	
-        	User user = User.getuserinput(nameField, ageField, weightField, heightField);
-        	DataManager.saveuser(user,mainframe);
-            JOptionPane.showMessageDialog(mainframe, ("User: " + user.getname() + " saved successfully!"));
-             
-                }
-            });
-        	
-    });
+        	@Override
+        	public void actionPerformed (ActionEvent e) {
+        		
+        		String name = nameField.getText();
+            	int age = Integer.parseInt(ageField.getText());
+            	int weight = Integer.parseInt(weightField.getText());
+            	int height = Integer.parseInt(heightField.getText());
+            	
+            	User user = new User(name, age, weight, height);
+            	DataManager.saveuser(user, mainframe);
+        		
+        	}
+        });
+        
+        loaduserbutton.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed (ActionEvent e) {
+        		JFileChooser selectfile = new JFileChooser();
+        		
+        		int result = selectfile.showOpenDialog(mainframe);
+        		
+        		if (result == JFileChooser.APPROVE_OPTION) {
+        			File chosenfile = selectfile.getSelectedFile();
+        			User loadeduserfile = DataManager.loaduser(chosenfile);
+        			
+        			if (loadeduserfile != null) {
+                        nameField.setText(loadeduserfile.getname());
+                        ageField.setText(String.valueOf(loadeduserfile.getage()));
+                        weightField.setText(String.valueOf(loadeduserfile.getweight()));
+                        heightField.setText(String.valueOf(loadeduserfile.getheight()));
+
+                        JOptionPane.showMessageDialog(mainframe, "User data loaded successfully!");
+                    } else {
+                        JOptionPane.showMessageDialog(mainframe, "Failed to load user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+        		}
+        		
+        	}
+        });    	
+        
+        
+        newuserbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DataManager.newuser(nameField,ageField,weightField,heightField,durationField,calorieLabel,bmrLabel); 
+            }
+        });
+        });
         	
 		mainframe.setVisible(true);
 		
 	}
-	
+
+
 	public static void main(String[] args) {
 		
   		 new GUI();
