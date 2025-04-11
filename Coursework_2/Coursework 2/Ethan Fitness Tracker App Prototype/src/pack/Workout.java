@@ -18,10 +18,6 @@ public int getduration() {
 	return duration;
 }
 
-public void getuserworkout() {
-	System.out.println("\nWorkout: " + exercise + "\nDuration: " + duration + " minutes");
-}
 
 }
-
 
