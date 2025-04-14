@@ -1,9 +1,11 @@
 #CW2 Fitness Tracker GUI
 
-##Written in Java using Intellij IDE
+##Written in Java using Intellij IDE 
+###Clone this project repository in Intellij, right click the src folder in main class - mark directory - Sources root. 
+###The src folder should turn blue and then allow you to run the app and use it. 
 
 ##Merged with kanee43-Fitness_Tracker_GUI
-###Can be used as a foundation to add further features.
+###Main be used as a foundation to add further features.
 
 ##Current features
 ###Creates a user object with input, name, age, weight, height. 
