@@ -2,7 +2,7 @@
 
 ##Written in Java using Intellij IDE
 
-##Merged with kanee43_Fitness_Tracker_GUI
+##Merged with kanee43-Fitness_Tracker_GUI
 Can be used as a foundation to add further features.
 
 ##Current features
