@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import javax.swing.JFileChooser;
 import java.awt.FlowLayout;
@@ -20,6 +21,7 @@ public class GUI {
     private JFrame mainframe;
     private JTextField nameField;
     private JTextField ageField;
+    private JTextField genderField;
     private JTextField weightField;
     private JTextField heightField;
     private JTextField durationField;
@@ -41,7 +43,7 @@ public class GUI {
         mainframe.setSize(800,400);
         mainframe.setLayout(new BorderLayout());
 
-        JPanel formpanel = new JPanel(new GridLayout(7, 2, 2, 2));
+        JPanel formpanel = new JPanel(new GridLayout(8, 2, 2, 2));
         formpanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         JPanel calcbuttonpanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10));
         JPanel userbuttonpanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,10));
@@ -52,6 +54,7 @@ public class GUI {
 
         nameField = new JTextField();
         ageField = new JTextField();
+        genderField = new JTextField();
         weightField = new JTextField();
         heightField = new JTextField();
         durationField = new JTextField();
@@ -74,6 +77,8 @@ public class GUI {
         formpanel.add(nameField);
         formpanel.add(new JLabel("Age: "));
         formpanel.add(ageField);
+        formpanel.add(new JLabel("Gender (m/f): "));
+        formpanel.add(genderField);
         formpanel.add(new JLabel("Weight (KG):"));
         formpanel.add(weightField);
         formpanel.add(new JLabel("Height (CM)"));
@@ -101,10 +106,11 @@ public class GUI {
                 int age = Integer.parseInt(ageField.getText());
                 int weight = Integer.parseInt(weightField.getText());
                 int height = Integer.parseInt(heightField.getText());
+                String gender = genderField.getText();
                 String exercise = (String) exerciseDropdown.getSelectedItem();
                 int duration = Integer.parseInt(durationField.getText());
 
-                User user = new User(name,age,weight,height);
+                User user = new User(name,age,weight,height, gender);
                 Workout workout = new Workout(exercise, duration);
 
                 double calories = Tracker.calculatecalories(user, workout);
@@ -126,8 +132,9 @@ public class GUI {
                 int age = Integer.parseInt(ageField.getText());
                 int weight = Integer.parseInt(weightField.getText());
                 int height = Integer.parseInt(heightField.getText());
+                String gender = genderField.getText();
 
-                User user = new User(name,age,weight,height);
+                User user = new User(name,age,weight,height,gender);
 
                 double bmr = Tracker.calculatebmr(user);
                 bmrLabel.setText("Your BMR is : " + String.format("%.2f", bmr ) + " Kcals per day");
@@ -146,8 +153,9 @@ public class GUI {
                     int age = Integer.parseInt(ageField.getText());
                     int weight = Integer.parseInt(weightField.getText());
                     int height = Integer.parseInt(heightField.getText());
+                    String gender = genderField.getText();
 
-                    User user = new User(name, age, weight, height);
+                    User user = new User(name, age, weight, height,gender);
                     DataManager.saveuser(user, mainframe);
 
                 }
@@ -169,6 +177,7 @@ public class GUI {
                             ageField.setText(String.valueOf(loadeduserfile.getage()));
                             weightField.setText(String.valueOf(loadeduserfile.getweight()));
                             heightField.setText(String.valueOf(loadeduserfile.getheight()));
+                            genderField.setText(loadeduserfile.getgender());
 
                             JOptionPane.showMessageDialog(mainframe, "User data loaded successfully!");
                         } else {
@@ -183,7 +192,7 @@ public class GUI {
             newuserbutton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    DataManager.newuser(nameField,ageField,weightField,heightField,durationField,calorieLabel,bmrLabel);
+                    DataManager.newuser(nameField,ageField,weightField,heightField, genderField, durationField,calorieLabel,bmrLabel);
                 }
             });
         });
