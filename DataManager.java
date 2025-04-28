@@ -24,6 +24,8 @@ public class DataManager {
             writer.newLine();
             writer.write(String.valueOf(user.getheight()));
             writer.newLine();
+            writer.write(user.getgender());
+            writer.newLine();
 
             JOptionPane.showMessageDialog(mainframe, "User " + user.getname() + " saved successfully!");
         }
@@ -39,8 +41,9 @@ public class DataManager {
             int age = Integer.parseInt(reader.readLine());
             int weight = Integer.parseInt(reader.readLine());
             int height = Integer.parseInt(reader.readLine());
+            String gender = reader.readLine();
 
-            return new User(name, age, weight, height); }
+            return new User(name, age, weight, height, gender); }
 
         catch (IOException e ) {
             return null;
@@ -50,13 +53,14 @@ public class DataManager {
         }
     }
 
-    public static void newuser(JTextField nameField, JTextField ageField, JTextField weightField, JTextField heightField, JTextField durationField,
+    public static void newuser(JTextField nameField, JTextField ageField, JTextField weightField, JTextField heightField, JTextField genderField,JTextField durationField,
                                JLabel calorieLabel, JLabel bmrLabel)
     {
         nameField.setText("");
         ageField.setText("");
         weightField.setText("");
         heightField.setText("");
+        genderField.setText("");
         durationField.setText("");
 
         bmrLabel.setText("BMR: ");
